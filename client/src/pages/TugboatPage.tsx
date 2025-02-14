@@ -1,6 +1,9 @@
+import React from 'react'
 import Table from "../components/Table";
 
-const TugboatPage: React.FC = () => {
+type Props = {}
+
+export default function TugboatPage({ }: Props) {
     const headers = ["No", "Name", "Max Load (ton)", "Max Barge (n)", "Max Barge Length (m)"];
     const tugboats = [
         { no: 1, name: "TBS01", maxLoad: 8000, maxBarge: 3, maxLength: 300 },
@@ -15,6 +18,4 @@ const TugboatPage: React.FC = () => {
             <Table headers={headers} data={tugboats} />
         </div>
     );
-};
-
-export default TugboatPage;
+}

@@ -1,9 +1,13 @@
-interface TableProps {
+import React from 'react'
+
+type Tugboat = { no: number, name: string, maxLoad: number, maxBarge: number, maxLength: number };
+
+type Props = {
     headers: string[];
-    data: Record<string, any>[];
+    data: Record<string, Tugboat>[];
 }
 
-const Table: React.FC<TableProps> = ({ headers, data }) => {
+export default function Table({ headers, data }: Props) {
     return (
         <table className="w-full border-collapse border border-gray-300 bg-white shadow-md">
             <thead className="bg-gray-200">
@@ -24,6 +28,4 @@ const Table: React.FC<TableProps> = ({ headers, data }) => {
             </tbody>
         </table>
     );
-};
-
-export default Table;
+}

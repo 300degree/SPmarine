@@ -1,6 +1,9 @@
+import React from 'react'
 import Table from "../components/Table";
 
-const BargePage: React.FC = () => {
+type Props = {}
+
+export default function BargePage({ }: Props) {
     const headers = ["Barge ID", "Capacity (ton)"];
     const barges = [
         { bargeID: "b1", capacity: 3000 },
@@ -16,6 +19,4 @@ const BargePage: React.FC = () => {
             <Table headers={headers} data={barges} />
         </div>
     );
-};
-
-export default BargePage;
+}

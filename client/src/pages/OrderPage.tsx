@@ -1,6 +1,9 @@
+import React from 'react'
 import Table from "../components/Table";
 
-const OrderPage: React.FC = () => {
+type Props = {}
+
+export default function OrderPage({ }: Props) {
     const headers = ["Order ID", "Type", "From", "To", "น้ำหนัก", "Start Time", "Arrived Due Date"];
     const orders = [
         { orderID: "o1", type: "ขาวจีน", from: "carrier1", to: "customer1", weight: 10000, start: "12/1/2025", due: "15/1/2025" },
@@ -14,6 +17,4 @@ const OrderPage: React.FC = () => {
             <Table headers={headers} data={orders} />
         </div>
     );
-};
-
-export default OrderPage;
+}
