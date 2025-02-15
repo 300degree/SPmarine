@@ -10,7 +10,7 @@ type Props = {}
 
 export default function App({}: Props) {
   return (
-    <main>
+    <main className='bg-[#F9F9F9] h-screen'>
       <BrowserRouter>
         <Routes>
           <Route index element={<HomePage />} />
