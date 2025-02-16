@@ -1,29 +1,35 @@
 import React from 'react'
+import clsx from 'clsx'
 
 type Props = {
-    children: React.ReactNode
+  children: React.ReactNode
+  className?: string
 }
 
-export function CustomTable({ children }: Props) {
-    return (
-        <table className='w-full border-separate border-spacing-y-3'>
-            {children}
-        </table>
-    )
+export function CustomTable({ children, className }: Props) {
+  return (
+    <table
+      className={clsx('w-full border-separate border-spacing-y-3', className)}
+    >
+      {children}
+    </table>
+  )
 }
 
-export function CustomTh({ children }: Props) {
-    return (
-        <th className='px-4 py-2 bg-white h-8 text-left max-w-20'>
-            {children}
-        </th>
-    )
+export function CustomTh({ children, className }: Props) {
+  return (
+    <th
+      className={clsx('px-4 py-2 bg-white h-8 text-left max-w-20', className)}
+    >
+      {children}
+    </th>
+  )
 }
 
-export function CustomTd({ children }: Props) {
-    return (
-        <td className='px-4 py-2 bg-white h-8 max-w-10'>
-            {children}
-        </td>
-    )
+export function CustomTd({ children, className }: Props) {
+  return (
+    <td className={clsx('px-4 py-2 bg-white h-8 max-w-10', className)}>
+      {children}
+    </td>
+  )
 }
