@@ -3,28 +3,25 @@ import SearchBar from '../components/modules/SearchBar'
 import { useEffect, useState } from 'react'
 import DraggableTableCell from '../components/modules/DraggableTableCell'
 import Pagination from '../components/modules/Pagination'
+import { useQuery } from '@tanstack/react-query'
+import { CustomTable, CustomTd, CustomTh } from '../components/CustomTable'
 
 type Props = {}
 
 export default function PlanPage({}: Props) {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 80
-  const [data, setData] = useState<Orders[]>([])
 
-  const fetchOrders = async () => {
-    try {
-      const res = await axios.get(
-        'https://67b086673fc4eef538e7a359.mockapi.io/orders'
-      )
-      setData(res.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const { isPending, error, data } = useQuery({
+    queryKey: ['repoData'],
+    queryFn: async () =>
+      (await axios.get('https://67b086673fc4eef538e7a359.mockapi.io/orders'))
+        .data,
+  })
 
-  useEffect(() => {
-    fetchOrders()
-  }, [])
+  if (isPending) return 'Loading...'
+
+  if (error) return 'An error has occurred: ' + error.message
 
   const totalPages = Math.ceil(data.length / itemsPerPage)
 
@@ -75,49 +72,41 @@ function TabelBody({ data }: { data: Orders[] }) {
     'Assign barge',
     'Barge load',
   ]
-  const [selectedOrder, setSelectedOrder] = useState<Orders | null>(null)
-  const handleRowClick = (item: Orders) => {
-    setSelectedOrder(item)
-  }
 
   return (
     <div className='max-h-195 overflow-auto mt-2 rounded-lg'>
-      <table className='w-full border-separate border-spacing-y-3'>
+      <CustomTable>
         <thead>
           <tr>
             {titles.map((title, index) => (
-              <th
+              <CustomTh
                 key={index}
-                className={`px-4 py-2 bg-white h-8 text-left max-w-20
+                className={`
                 ${index === 0 && 'rounded-l-lg w-1'} 
                 ${index === titles.length - 1 && 'rounded-r-lg'}`}
               >
                 {title}
-              </th>
+              </CustomTh>
             ))}
           </tr>
         </thead>
 
         <tbody>
           {data.map((item, index) => (
-            <tr
-              key={item.id}
-              className='bg-white'
-              onClick={() => handleRowClick(item)}
-            >
-              <td className='px-4 py-2 h-8 rounded-l-lg'>{index + 1}</td>
-              <td className='px-4 py-2 h-8 max-w-10'>{item.order}</td>
-              <td className='px-4 py-2 h-8 max-w-10'>{item.load}</td>
-              <td className='px-4 py-2 h-8 max-w-10'>
+            <tr key={item.id} className='bg-white'>
+              <CustomTd className='max-w-0 rounded-l-lg'>{index + 1}</CustomTd>
+              <CustomTd>{item.order}</CustomTd>
+              <CustomTd>{item.load}</CustomTd>
+              <CustomTd>
                 <DraggableTableCell data={item.assing_barge} />
-              </td>
-              <td className='px-4 py-2 h-8 max-w-10 rounded-r-lg'>
+              </CustomTd>
+              <CustomTd className='rounded-r-lg'>
                 <DraggableTableCell data={item.barge_load} />
-              </td>
+              </CustomTd>
             </tr>
           ))}
         </tbody>
-      </table>
+      </CustomTable>
     </div>
   )
 }
