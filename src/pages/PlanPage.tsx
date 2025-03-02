@@ -7,7 +7,6 @@ import { useQuery } from '@tanstack/react-query';
 import { CustomTable, CustomTd, CustomTh } from '../components/CustomTable';
 
 type Props = {};
-
 export default function PlanPage({}: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 80;

@@ -8,6 +8,7 @@ export default function SearchBar() {
       inputRef.current.focus();
     }
   }, []);
+
   return (
     <div className="w-full mx-auto flex bg-white rounded-lg shadow-md pl-2.5">
       <div className="relative flex-1">

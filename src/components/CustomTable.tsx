@@ -5,7 +5,6 @@ type Props = {
   children: React.ReactNode;
   className?: string;
 };
-
 export function CustomTable({ children, className }: Props) {
   return (
     <table

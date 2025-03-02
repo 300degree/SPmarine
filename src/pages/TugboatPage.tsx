@@ -30,7 +30,6 @@ export default function TugboatPage() {
         setLoading(false);
       });
   }, []);
-
   // Pagination Logic
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const paginatedData = data.slice(

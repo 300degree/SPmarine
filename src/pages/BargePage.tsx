@@ -8,6 +8,7 @@ type Barge = {
   id: string;
   capacity: number;
 };
+
 export default function BargePage() {
   const [data, setData] = useState<Barge[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

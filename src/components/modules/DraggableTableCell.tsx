@@ -27,7 +27,6 @@ export default function DraggableTableCell({ data }: Props) {
   const handleMouseUp = () => {
     setIsDragging(false);
   };
-
   return (
     <div
       ref={scrollRef}

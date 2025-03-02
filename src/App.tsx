@@ -7,6 +7,7 @@ import { routers } from './common/constants/routes';
 import PlanPage from './pages/PlanPage';
 
 type Props = {};
+
 export default function App({}: Props) {
   return (
     <main className="bg-[#F9F9F9] h-screen">

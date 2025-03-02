@@ -7,6 +7,7 @@ type Props = {
   itemsPerPage: number;
   onPageChange: (page: number) => void;
 };
+
 export default function Pagination({
   currentPage,
   totalPages,
