@@ -1,16 +1,15 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import HomePage from './pages/HomePage'
-import BargePage from './pages/BargePage'
-import OrderPage from './pages/OrderPage'
-import TugboatPage from './pages/TugboatPage'
-import { routers } from './common/constants/routes'
-import PlanPage from './pages/PlanPage'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import BargePage from './pages/BargePage';
+import OrderPage from './pages/OrderPage';
+import TugboatPage from './pages/TugboatPage';
+import { routers } from './common/constants/routes';
+import PlanPage from './pages/PlanPage';
 
-type Props = {}
-
+type Props = {};
 export default function App({}: Props) {
   return (
-    <main className='bg-[#F9F9F9] h-screen'>
+    <main className="bg-[#F9F9F9] h-screen">
       <BrowserRouter>
         <Routes>
           <Route index element={<HomePage />} />
@@ -21,5 +20,5 @@ export default function App({}: Props) {
         </Routes>
       </BrowserRouter>
     </main>
-  )
+  );
 }
