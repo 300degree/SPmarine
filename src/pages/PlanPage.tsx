@@ -1,32 +1,33 @@
-import axios from 'axios';
-import SearchBar from '../components/modules/SearchBar';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { routers } from '../common/constants/routes';
+import { plansAsync, plansSelector } from '../common/store/slices/plansSlice';
+import { useAppDispatch } from '../common/store/store';
+import { PlansResponse } from '../common/types';
+import { CustomTable, CustomTd, CustomTh } from '../components/CustomTable';
 import DraggableTableCell from '../components/modules/DraggableTableCell';
 import Pagination from '../components/modules/Pagination';
-import { useQuery } from '@tanstack/react-query';
-import { CustomTable, CustomTd, CustomTh } from '../components/CustomTable';
+import SearchBar from '../components/modules/SearchBar';
 
 type Props = {};
 export default function PlanPage({}: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 80;
-  const { isPending, error, data } = useQuery({
-    queryKey: ['repoData'],
-    queryFn: async () =>
-      (await axios.get('https://67b086673fc4eef538e7a359.mockapi.io/orders'))
-        .data,
-  });
+  const plansReducer = useSelector(plansSelector);
+  const dispatch = useAppDispatch();
 
-  if (isPending) return 'Loading...';
+  useEffect(() => {
+    dispatch(plansAsync());
+  }, [dispatch]);
 
-  if (error) return 'An error has occurred: ' + error.message;
-
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-
-  const paginatedData = data.slice(
+  if (plansReducer.isPending || !plansReducer.result) return 'Loading...';
+  const totalPages = Math.ceil(plansReducer.result.length / itemsPerPage);
+  const paginatedData = plansReducer.result.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
+
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center w-full pt-4">
@@ -40,7 +41,7 @@ export default function PlanPage({}: Props) {
           <SearchBar />
           <div className="flex justify-end">
             <Pagination
-              count={data.length}
+              count={plansReducer.result.length}
               currentPage={currentPage}
               itemsPerPage={itemsPerPage}
               totalPages={totalPages}
@@ -49,20 +50,13 @@ export default function PlanPage({}: Props) {
           </div>
         </div>
       </div>
-      <TabelBody data={paginatedData} />
+      <TableBody data={paginatedData} />
     </div>
   );
 }
 
-export type Orders = {
-  readonly order: string;
-  readonly load: number;
-  readonly assing_barge: Array<number | string>;
-  readonly barge_load: Array<number | string>;
-  readonly id: string;
-};
-
-function TabelBody({ data }: { data: Orders[] }) {
+function TableBody({ data }: { data: PlansResponse[] }) {
+  const navigate = useNavigate();
   const titles: string[] = [
     'NO.',
     'Orders',
@@ -91,7 +85,11 @@ function TabelBody({ data }: { data: Orders[] }) {
 
         <tbody>
           {data.map((item, index) => (
-            <tr key={item.id} className="bg-white">
+            <tr
+              key={item.id}
+              className="bg-white"
+              onClick={() => navigate(`/${routers.plan}/${item.id}`)}
+            >
               <CustomTd className="max-w-0 rounded-l-lg">{index + 1}</CustomTd>
               <CustomTd>{item.order}</CustomTd>
               <CustomTd>{item.load}</CustomTd>
