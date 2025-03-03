@@ -4,9 +4,8 @@ import { PlansResponse } from '../types';
 
 const fetch = async (): Promise<PlansResponse[]> => {
   const { data } = await axios.get<PlansResponse[]>(
-    'https://67b086673fc4eef538e7a359.mockapi.io/orders',
+    'http://127.0.0.1:5000/plans',
   );
-  console.log(data);
   return data;
 };
 

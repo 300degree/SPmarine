@@ -4,7 +4,7 @@ import { PlansResponse } from '../types';
 
 const fetchPlanById = async (id: string): Promise<PlansResponse> => {
   const { data } = await axios.get<PlansResponse>(
-    `https://67b086673fc4eef538e7a359.mockapi.io/orders/${id}`,
+    `http://127.0.0.1:5000/plan/${id}`,
   );
   return data;
 };

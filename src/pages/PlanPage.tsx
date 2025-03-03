@@ -63,12 +63,12 @@ function TableBody() {
               <CustomTd className="max-w-0 rounded-l-lg">{index + 1}</CustomTd>
               <CustomTd>{item.order}</CustomTd>
               <CustomTd>{item.load}</CustomTd>
-              <CustomTd>
+              {/* <CustomTd>
                 <DraggableTableCell data={item.assing_barge} />
               </CustomTd>
               <CustomTd className="rounded-r-lg">
                 <DraggableTableCell data={item.barge_load} />
-              </CustomTd>
+              </CustomTd> */}
             </tr>
           ))}
         </tbody>
