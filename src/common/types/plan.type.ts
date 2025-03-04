@@ -1,11 +1,16 @@
-import { z } from 'zod';
+import * as z from "zod";
 
-const dataSchema = z.object({
-  order: z.string(),
-  load: z.number(),
-  assing_barge: z.array(z.union([z.string(), z.number()])),
-  barge_load: z.array(z.union([z.string(), z.number()])),
-  id: z.string(),
+export const AssignBargeSchema = z.object({
+    "load": z.number(),
+    "name": z.string(),
 });
+export type AssignBarge = z.infer<typeof AssignBargeSchema>;
 
+export const dataSchema = z.object({
+    "assign_barge": z.array(AssignBargeSchema),
+    "barge_load": z.array(z.union([z.number(), z.string()])),
+    "id": z.string(),
+    "load": z.number(),
+    "order": z.string(),
+});
 export type PlansResponse = z.infer<typeof dataSchema>;
