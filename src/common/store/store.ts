@@ -1,12 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import plansReducer from './slices/plansSlice';
-import planReducer from './slices/planSlice';
 
-const reducer = {
-  plansReducer,
-  planReducer,
-};
+const reducer = {};
 
 export const store = configureStore({
   reducer,

@@ -1,16 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
-import { httpClient } from '../services';
-import { routers } from '../constants';
+import axios from 'axios';
+import { PlansResponse } from '../types';
 
-export function usePlans(id: string) {
+const fetch = async (): Promise<PlansResponse[]> => {
+  const { data } = await axios.get<PlansResponse[]>(
+    'https://67b086673fc4eef538e7a359.mockapi.io/orders',
+  );
+  console.log(data);
+  return data;
+};
+
+export function usePlans() {
   return useQuery({
-    queryKey: ['sing'],
-    queryFn: () => fetchPlans(id),
-    // enabled: !!id,
+    queryKey: ['plans'],
+    queryFn: fetch,
   });
-}
-
-async function fetchPlans(id: string): Promise<any> {
-  const response = await httpClient.get(`${routers.plan}/${id}`);
-  return response.data;
 }
