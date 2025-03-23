@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { CustomTable, CustomTd, CustomTh } from '../components/CustomTable';
-import DraggableTableCell from '../components/modules/DraggableTableCell';
 import SearchBar from '../components/modules/SearchBar';
 import { routers, usePlans } from '../common';
 
