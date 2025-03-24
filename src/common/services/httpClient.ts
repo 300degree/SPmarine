@@ -6,9 +6,10 @@ const NETWORK_CONNECTION_MESSAGE =
 const NOT_CONNECT_NETWORK = 'NOT_CONNECT_NETWORK';
 const isAbsoluteURLRegex = /^(?:\w+:)\/\//;
 
-const apiUrl = 'https://67b086673fc4eef538e7a359.mockapi.io';
+const apiUrl = 'http://62.72.30.12:3033';
 
 axios.defaults.withCredentials = true;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 axios.interceptors.request.use(async (config: any) => {
   if (!isAbsoluteURLRegex.test(config.url)) {
     config.url = join(apiUrl, config.url);
