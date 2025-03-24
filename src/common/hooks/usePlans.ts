@@ -1,11 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { PlansResponse } from '../types';
+import { httpClient } from '../services'
 
 const fetch = async (): Promise<PlansResponse[]> => {
-  const { data } = await axios.get<PlansResponse[]>(
-    'http://127.0.0.1:5000/plans',
-  );
+  const { data } = await httpClient.get<PlansResponse[]>('plans');
   return data;
 };
 
