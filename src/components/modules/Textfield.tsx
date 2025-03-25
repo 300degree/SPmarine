@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { JSX } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 type TextfieldProps = {
@@ -6,6 +7,7 @@ type TextfieldProps = {
   placeholder?: string;
   type?: string;
   register?: UseFormRegisterReturn;
+  readonly?: boolean;
 };
 
 export default function Textfield({
@@ -13,14 +15,17 @@ export default function Textfield({
   placeholder,
   type = 'text',
   register,
-}: TextfieldProps) {
+  readonly = false,
+}: TextfieldProps): JSX.Element {
   return (
     <input
       type={type}
       placeholder={placeholder}
+      readOnly={readonly}
       {...register}
       className={clsx(
-        'border border-neutral-500 p-2 w-full rounded-xl focus:outline-none',
+        !readonly && 'border border-neutral-500',
+        'p-2 w-full rounded-xl focus:outline-none h-fit',
         className,
       )}
     />

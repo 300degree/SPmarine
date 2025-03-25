@@ -2,8 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { CustomTable, CustomTd, CustomTh } from '../components/CustomTable';
 import SearchBar from '../components/modules/SearchBar';
 import { routers, usePlans } from '../common';
+import { JSX } from 'react';
 
-export default function PlanPage() {
+export default function PlanPage(): JSX.Element {
   const navigate = useNavigate();
 
   return (
