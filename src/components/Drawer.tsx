@@ -1,8 +1,9 @@
 import { ClipboardList, LayoutGrid, Send, Ship, Wrench } from 'lucide-react';
 import { JSX, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { routers } from '../common';
 
-type NavItemProps = {
+type ItemProps = {
   to: string;
   icon: ReactNode;
   text: string;
@@ -16,12 +17,12 @@ export default function Drawer({ children }: Props): JSX.Element {
   return (
     <div className="flex">
       <aside className="w-48 bg-gray-700 h-[calc(100vh-3.5rem)] flex flex-col items-center">
-        <nav className="flex flex-col gap-4 w-full">
-          <NavItem to="/" icon={<LayoutGrid />} text="Home" />
-          <NavItem to="/orders" icon={<ClipboardList />} text="Orders" />
-          <NavItem to="/barge" icon={<Ship />} text="Barges" />
-          <NavItem to="/tugboat" icon={<Wrench />} text="Tugboats" />
-          <NavItem to="/plan" icon={<Send />} text="Plans" />
+        <nav className="flex flex-col gap-y-4 w-full m-3">
+          <Item to={routers.root} icon={<LayoutGrid />} text="Home" />
+          <Item to={routers.orders} icon={<ClipboardList />} text="Orders" />
+          <Item to={routers.barge} icon={<Ship />} text="Barges" />
+          <Item to={routers.tugboat} icon={<Wrench />} text="Tugboats" />
+          <Item to={routers.plan} icon={<Send />} text="Plans" />
         </nav>
       </aside>
       <main className="w-full">{children}</main>
@@ -29,7 +30,7 @@ export default function Drawer({ children }: Props): JSX.Element {
   );
 }
 
-function NavItem({ to, icon, text }: NavItemProps): JSX.Element {
+function Item({ to, icon, text }: ItemProps): JSX.Element {
   return (
     <Link
       to={to}
