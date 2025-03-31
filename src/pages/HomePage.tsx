@@ -5,11 +5,9 @@ import { PiShippingContainerLight } from 'react-icons/pi';
 import { routers } from '../common/constants/routes';
 import MenuButton from '../components/modules/MenuButton';
 
-type Props = {};
-
-export default function HomePage({}: Props) {
+export default function HomePage() {
   return (
-    <div className="container mx-auto h-screen flex justify-center items-center">
+    <div className="container mx-auto flex justify-center items-center">
       <div className="grid grid-cols-3 gap-10 place-items-center">
         <MenuButton
           path={routers.orders}

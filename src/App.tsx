@@ -6,15 +6,16 @@ import TugboatPage from './pages/TugboatPage';
 import { routers } from './common/constants/routes';
 import PlanPage from './pages/PlanPage';
 import FormPlans from './pages/FormPlans';
-import Header from './components/Header';
 import Drawer from './components/Drawer';
 import { JSX } from 'react';
 
 export default function App(): JSX.Element {
   return (
     <main className="bg-[#F9F9F9] h-screen">
-      <Header />
       <Drawer>
+        <div className="h-16 bg-primary">
+          <h1>Header</h1>
+        </div>
         <Routes>
           <Route index element={<HomePage />} />
           <Route path={routers.tugboat} element={<TugboatPage />} />

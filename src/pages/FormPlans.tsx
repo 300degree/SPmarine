@@ -112,7 +112,7 @@ export default function FormPlans(): JSX.Element {
           <Card className="h-fit p-5">
             <div className="flex w-full gap-x-5">
               <div className="flex flex-1 gap-x-2">
-                <label className="block items-center flex font-semibold text-neutral-600">
+                <label className="block items-center font-semibold text-neutral-600">
                   Order:
                 </label>
                 <Textfield
@@ -126,7 +126,7 @@ export default function FormPlans(): JSX.Element {
               </div>
 
               <div className="flex flex-1 gap-x-2">
-                <label className="block items-center flex font-semibold text-neutral-600">
+                <label className="block items-center font-semibold text-neutral-600">
                   Load:
                 </label>
                 <Textfield
