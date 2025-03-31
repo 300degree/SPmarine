@@ -1,6 +1,7 @@
 export const routers = {
   tugboat: 'tugboat',
-  orders:'orders',
+  orders: 'orders',
   barge: 'barge',
-  plan: 'plan'
-} 
+  plan: 'plan',
+  root: '/',
+};
