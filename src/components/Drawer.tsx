@@ -16,8 +16,11 @@ type Props = {
 export default function Drawer({ children }: Props): JSX.Element {
   return (
     <div className="flex">
-      <aside className="w-48 bg-gray-700 h-[calc(100vh-3.5rem)] flex flex-col items-center">
-        <nav className="flex flex-col gap-y-4 w-full m-3">
+      <aside className="w-3xs h-screen flex flex-col items-center border-r-1 border-primary/10">
+        <div className="h-16 w-full flex justify-center items-center border-b-1 border-primary/10">
+          Logo
+        </div>
+        <nav className="flex flex-col gap-y-1 w-full mt-3">
           <Item to={routers.root} icon={<LayoutGrid />} text="Home" />
           <Item to={routers.orders} icon={<ClipboardList />} text="Orders" />
           <Item to={routers.barge} icon={<Ship />} text="Barges" />
@@ -32,14 +35,11 @@ export default function Drawer({ children }: Props): JSX.Element {
 
 function Item({ to, icon, text }: ItemProps): JSX.Element {
   return (
-    <Link
-      to={to}
-      className="text-white w-full flex items-center gap-3 rounded-lg p-2 transition duration-300 hover:bg-gray-600 w-full"
-    >
-      <span className="text-xl transition duration-300 hover:text-gray-300">
-        {icon}
-      </span>
-      <span className="text-base font-medium">{text}</span>
-    </Link>
+    <div className="h-12 hover:bg-primary/10 transition duration-300 flex justify-center">
+      <Link to={to} className="w-2/3 h-full flex items-center">
+        <span className="mr-5">{icon}</span>
+        <span>{text}</span>
+      </Link>
+    </div>
   );
 }

@@ -1,4 +1,8 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #333;
+}
 
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */
