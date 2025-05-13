@@ -1,5 +1,6 @@
+import { HiSquares2X2, HiUsers, HiChevronRight, HiOutlineCog8Tooth } from 'react-icons/hi2';
 import { Typography, Card, CardBody, CardFooter } from '@material-tailwind/react';
-import { HiChevronRight } from 'react-icons/hi2';
+import { GiCargoShip, GiFishingBoat } from 'react-icons/gi';
 import { ReactNode, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +11,7 @@ import CarrierContext from '@/contexts/CarrierContext';
 import BargeContext from '@/contexts/BargesContext';
 import LoadingPage from '@/pages/loading';
 
-type dataProps = { label: string; value: number | string; icon: ReactNode };
+type dataProps = { label: string; value: number | string; icon: ReactNode; iconColor: string };
 
 function KPICard({ data }: { data: dataProps }) {
 	return (
@@ -18,10 +19,14 @@ function KPICard({ data }: { data: dataProps }) {
 			<CardBody className="p-4">
 				<div className="flex justify-between items-start mb-2">
 					<div>
-						<Typography className="text-sm text-gray-600">{data.label}</Typography>
-						<Typography className="text-2xl font-bold text-blue-gray-900">{data.value}</Typography>
+						<Typography variant="h5" className="text-gray-900">
+							{data.label}
+						</Typography>
+						<Typography variant="h5" className="font-bold text-blue-gray-900">
+							{data.value}
+						</Typography>
 					</div>
-					<div className="ml-auto p-2 bg-gray-100 rounded-md">{data.icon}</div>
+					<div className={`text-5xl ml-auto p-2 bg-gray-100 rounded-md ${data.iconColor}`}>{data.icon}</div>
 				</div>
 			</CardBody>
 
@@ -35,7 +40,7 @@ function KPICard({ data }: { data: dataProps }) {
 	);
 }
 
-export default function DashboardPage({}: {}) {
+export default function ComponentPage() {
 	const { data: customerData } = useContext(CustomerContext);
 	const { data: tugbaotData } = useContext(TugboatContext);
 	const { data: carrierData } = useContext(CarrierContext);
@@ -45,11 +50,11 @@ export default function DashboardPage({}: {}) {
 	if (!bargeData || !tugbaotData || !carrierData || !customerData || !stationData) return <LoadingPage />;
 
 	const head: dataProps[] = [
-		{ label: 'Tugboat', value: tugbaotData.length || 0, icon: <></> },
-		{ label: 'Barge', value: bargeData?.length || 0, icon: <></> },
-		{ label: 'Station', value: stationData.length || 0, icon: <></> },
-		{ label: 'Customer', value: customerData.length || 0, icon: <></> },
-		{ label: 'Carrier', value: carrierData.length || 0, icon: <></> },
+		{ label: 'Tugboat', value: tugbaotData.length || 0, icon: <GiCargoShip />, iconColor: 'text-[#3F51B5]' },
+		{ label: 'Barge', value: bargeData?.length || 0, icon: <GiFishingBoat />, iconColor: 'text-[#009688]' },
+		{ label: 'Station', value: stationData.length || 0, icon: <HiOutlineCog8Tooth />, iconColor: 'text-[#607D8B]' },
+		{ label: 'Customer', value: customerData.length || 0, icon: <HiUsers />, iconColor: 'text-[#FF5722]' },
+		{ label: 'Carrier', value: carrierData.length || 0, icon: <HiSquares2X2 />, iconColor: 'text-[#9C27B0]' },
 	];
 
 	return (

@@ -1,29 +1,49 @@
-import { Card, CardBody, CardHeader, Typography, Input, Button } from '@material-tailwind/react';
-import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import { useContext } from 'react';
+import {
+	Card,
+	CardBody,
+	CardHeader,
+	Typography,
+	Input,
+	Button,
+	Textarea,
+	DialogBody,
+	DialogFooter,
+	Dialog,
+	DialogHeader,
+} from '@material-tailwind/react';
+import { HiOutlineArrowDownTray, HiMagnifyingGlass, HiOutlinePlus } from 'react-icons/hi2';
+import { useContext, useState } from 'react';
 
-import { ExportCSV } from '@/pages/barge/utils/export';
 import TugboatContext from '@/contexts/TugboatContext';
 import { Tugboats } from '@/constant/types/tugboat';
+// import ReportConfigModal from '@/components/modal';
+import { ExportCSV } from '@/utils/exportCSV';
 import LoadingPage from '@/pages/loading';
-import Layout from '@/components/homeLayout';
 
-function TableHeader({ data }: { data: Tugboats[] }) {
+function TableHeader({ data, onSearch }: { data: Tugboats[]; onSearch: (text: string) => void }) {
+	const [isOpen, setIsOpen] = useState(false);
+
 	return (
 		<CardHeader floated={false} shadow={false} className="rounded-none flex flex-wrap gap-4 justify-between mb-4">
 			<div>
 				<Typography variant="h6" color="blue-gray">
-					Barges Overview
+					Tugboat Overview
 				</Typography>
 			</div>
 			<div className="flex items-center w-full shrink-0 gap-4 md:w-max">
 				<Button className="flex items-center gap-2" onClick={() => ExportCSV<Tugboats>(data, 'tugboat_overview')}>
-					<ArrowDownTrayIcon strokeWidth={3} className="w-3 h-3" />
+					<HiOutlineArrowDownTray strokeWidth={3} className="w-3 h-3" />
 					EXPORT
 				</Button>
 				<div className="w-full md:w-72">
-					<Input size="lg" label="Search" icon={<MagnifyingGlassIcon />} className="h-5 w-5" crossOrigin={undefined} />
+					<Input
+						size="lg"
+						label="Search"
+						icon={<HiMagnifyingGlass />}
+						className="h-5 w-5"
+						crossOrigin={undefined}
+						onChange={(e) => onSearch(e.target.value)}
+					/>
 				</div>
 			</div>
 		</CardHeader>
@@ -152,15 +172,18 @@ function TableBody({ data }: { data: Tugboats[] }) {
 
 export default function TugboatPage({}: {}) {
 	const { data, loading } = useContext(TugboatContext);
+	const [searchText, setSearchText] = useState('');
 	if (loading || !data) return <LoadingPage />;
 
+	const filterd = data.filter((tugboat) => {
+		return tugboat.name.toLowerCase().includes(searchText.toLowerCase());
+	});
+
 	return (
-		// <Layout>
-		// 	</Layout>
 		<section className="m-10">
 			<Card className="h-full w-full">
-				<TableHeader data={data} />
-				<TableBody data={data} />
+				<TableHeader data={data} onSearch={setSearchText} />
+				<TableBody data={filterd} />
 			</Card>
 		</section>
 	);

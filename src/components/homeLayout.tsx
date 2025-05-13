@@ -7,7 +7,7 @@ export default function HomeLayout() {
 	return (
 		<div className="flex">
 			<Sidebar />
-			<div className="flex-1">
+			<div className="flex flex-col flex-1 overflow-hidden">
 				<Navbar />
 				<main>
 					<Outlet />

@@ -1,44 +1,30 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { lazy, ReactNode, Suspense } from 'react';
+import { Suspense } from 'react';
 
+import { siteMap, PageNode } from '@/constant/routes';
 import AppProvider from '@/provider/AppProvider';
 import LoadingPage from '@/pages/loading';
+import BargeManagementDashboard from './pages/home/orders/temp';
 
-import HomeLayout from '@/components/homeLayout';
-import AuthLayout from '@/components/authLayout';
+/**
+ * @brief Depth Render Routes
+ */
+function DRR(nodes: PageNode[]) {
+	return nodes.map((node) => {
+		const { path, element, children } = node;
 
-const DashboardPage = lazy(() => import('@/pages/dashboard'));
-const NotFoundPage = lazy(() => import('@/pages/not-found'));
-const SignUpPage = lazy(() => import('@/pages/auth/signup'));
-const SignInPage = lazy(() => import('@/pages/auth/signin'));
-const CustomerPage = lazy(() => import('@/pages/customer'));
-const TugboatPage = lazy(() => import('@/pages/tugboat'));
-const BargePage = lazy(() => import('@/pages/barge'));
-const OrderPage = lazy(() => import('@/pages/order'));
+		return <Route key={path} path={path} element={element} children={children && DRR(children)} />;
+	});
+}
 
 export default function App() {
 	return (
 		<AppProvider>
 			<Suspense fallback={<LoadingPage />}>
 				<Routes>
-					<Route path="*" element={<Navigate to="/home" replace />} />
-
-					<Route path="home" element={<HomeLayout />}>
-						<Route index element={<Navigate to="dashboard" replace />} />
-						<Route path="dashboard" element={<DashboardPage />} />
-						<Route path="tugboats" element={<TugboatPage />} />
-						<Route path="barges" element={<BargePage />} />
-						<Route path="orders" element={<OrderPage />} />
-						<Route path="customers" element={<CustomerPage />} />
-						<Route path="*" element={<NotFoundPage />} />
-					</Route>
-
-					<Route path="auth" element={<AuthLayout />}>
-						<Route index element={<Navigate to="signin" replace />} />
-						<Route path="signup" element={<SignUpPage />} />
-						<Route path="signin" element={<SignInPage />} />
-						<Route path="*" element={<NotFoundPage />} />
-					</Route>
+					<Route path="/" element={<Navigate to="/home" replace />} />
+					{DRR(siteMap)}
+					<Route path="/test" element={<BargeManagementDashboard></BargeManagementDashboard>} />
 				</Routes>
 			</Suspense>
 		</AppProvider>

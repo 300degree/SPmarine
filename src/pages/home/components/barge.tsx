@@ -1,15 +1,16 @@
 import { Card, CardBody, CardHeader, Typography, Input, Button } from '@material-tailwind/react';
-import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import { useContext } from 'react';
+import { HiOutlineArrowDownTray, HiMagnifyingGlass, HiOutlinePlus } from 'react-icons/hi2';
+import { useContext, useState } from 'react';
 
-import { ExportCSV } from '@/pages/barge/utils/export';
 import BargeContext from '@/contexts/BargesContext';
-import LoadingPage from '@/pages/loading';
-import Layout from '@/components/homeLayout';
+import ReportConfigModal from '@/components/modal';
 import { Barges } from '@/constant/types/barge';
+import { ExportCSV } from '@/utils/exportCSV';
+import LoadingPage from '@/pages/loading';
 
-function TableHeader({ data }: { data: Barges[] }) {
+function TableHeader({ data, onSearch }: { data: Barges[]; onSearch: (text: string) => void }) {
+	const [isOpen, setIsOpen] = useState(false);
+
 	return (
 		<CardHeader floated={false} shadow={false} className="rounded-none flex flex-wrap gap-4 justify-between mb-4">
 			<div>
@@ -18,12 +19,44 @@ function TableHeader({ data }: { data: Barges[] }) {
 				</Typography>
 			</div>
 			<div className="flex items-center w-full shrink-0 gap-4 md:w-max">
-				<Button className="flex items-center gap-2" onClick={() => ExportCSV<Barges>(data, 'barge_overview')}>
-					<ArrowDownTrayIcon strokeWidth={3} className="w-3 h-3" />
+				<ReportConfigModal open={isOpen} onClose={() => setIsOpen(false)} />
+				<Button variant="outlined" className="flex items-center gap-2" onClick={() => setIsOpen(true)}>
+					<HiOutlinePlus className="w-4 h-4" /> ADD NEW
+				</Button>
+				<Button
+					className="flex items-center gap-2"
+					onClick={() => {
+						let temp = data.map((val, _idx) => {
+							return {
+								ID: val.id,
+								NAME: val.name,
+								WEIGHT: val.weight,
+								CAP: val.cap,
+								LAT: val.last,
+								LNG: val.long,
+								'WATER STATUS': val.waterStatus,
+								STATION: val.station,
+								KM: val.kilometer,
+								'SETUP TIME': val.setupTime,
+								'READY DATETIME': val.readyDateTime,
+							};
+						});
+
+						ExportCSV(temp, 'barge_overview');
+					}}
+				>
+					<HiOutlineArrowDownTray strokeWidth={3} className="w-3 h-3" />
 					EXPORT
 				</Button>
 				<div className="w-full md:w-72">
-					<Input size="lg" label="Search" icon={<MagnifyingGlassIcon />} className="h-5 w-5" crossOrigin={undefined} />
+					<Input
+						size="lg"
+						label="Search"
+						icon={<HiMagnifyingGlass />}
+						className="h-5 w-5"
+						crossOrigin={undefined}
+						onChange={(e) => onSearch(e.target.value)}
+					/>
 				</div>
 			</div>
 		</CardHeader>
@@ -134,17 +167,20 @@ function TableBody({ data }: { data: Barges[] }) {
 	);
 }
 
-export default function BargePage({}: {}) {
+export default function BargePage() {
 	const { data, loading } = useContext(BargeContext);
+	const [searchName, setSearchName] = useState('');
 	if (loading || !data) return <LoadingPage />;
 
+	const filterd = data.filter((barge) => {
+		return barge.name.toLowerCase().includes(searchName.toLowerCase());
+	});
+
 	return (
-		// <Layout>
-		// 	</Layout>
 		<section className="m-10">
 			<Card className="h-full w-full">
-				<TableHeader data={data} />
-				<TableBody data={data} />
+				<TableHeader data={data} onSearch={setSearchName} />
+				<TableBody data={filterd} />
 			</Card>
 		</section>
 	);
