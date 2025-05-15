@@ -1,0 +1,20 @@
+export type Schedule = {
+	id: string;
+	name: string;
+	type: string;
+	enter_datetime: string;
+	exit_datetime: string;
+	distance: number;
+	time: string;
+	speed: number;
+	order_trip: string;
+	total_load: number;
+	barge_ids: string;
+	order_distance: string;
+	order_time: string;
+	barge_speed: string;
+	order_arrival_time: string;
+	tugboat_id: string;
+	order_id: string;
+	water_type: string;
+};

@@ -1,21 +1,24 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import TableHeader from './Tables/TableHeader';
 import { Button, ButtonGroup, Card, CardBody, Typography } from '@material-tailwind/react';
-import TableBodys from './Tables/TableBody';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { HiOutlinePlus } from 'react-icons/hi2';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { LuImport } from 'react-icons/lu';
-import { HiOutlinePlus } from 'react-icons/hi2';
+
+import TableHeaders from '@/pages/TaskManagement/Tables/TableHeader';
+import AddScheduleModal from '@/pages/TaskManagement/Tables/Modal';
 import { Table, TableBody } from '@/components/ui/table';
-import TableHeaders from './Tables/TableHeader';
-import TugboatContext from '@/contexts/TugboatContext';
-import LoadingPage from '../loading';
-import { Tugboats } from '@/constant/types/tugboat';
+import { Schedule } from '@/constant/types/schedule';
+import ScheduleContext from '@/contexts/ScheduleContext';
+import { ExportCSV } from '@/utils/exportCSV';
+import TableBodys from './Tables/TableBody';
+import LoadingPage from '@/pages/loading';
 
 type Props = {};
 
 export default function TaskManagement({}: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);
-	const { data, loading } = useContext(TugboatContext);
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const { data, loading } = useContext(ScheduleContext);
 
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
@@ -78,11 +81,39 @@ export default function TaskManagement({}: Props) {
 							<FaRegTrashAlt />
 							Remove
 						</button>
-						<button className="flex gap-x-2 items-center h-11 py-1 px-3 bg-gray-50 border-gray-300 border text-gray-700 font-normal text-sm rounded-lg cursor-pointer transition active:scale-95">
+						<button
+							className="flex gap-x-2 items-center h-11 py-1 px-3 bg-gray-50 border-gray-300 border text-gray-700 font-normal text-sm rounded-lg cursor-pointer transition active:scale-95"
+							onClick={() => {
+								const exportData = data.map((val) => ({
+									ID: val.id,
+									NAME: val.name,
+									TYPE: val.type,
+									ENTER_DATETIME: val.enter_datetime,
+									EXIT_DATETIME: val.exit_datetime,
+									DISTANCE: val.distance,
+									TIME: val.time,
+									SPEED: val.speed,
+									ORDER_TRIP: val.order_trip,
+									TOTAL_LOAD: val.total_load,
+									BARGE_IDS: val.barge_ids,
+									ORDER_DISTANCE: val.order_distance,
+									ORDER_TIME: val.order_time,
+									BARGE_SPEED: val.barge_speed,
+									ORDER_ARRIVAL_TIME: val.order_arrival_time,
+									TUGBOAT_ID: val.tugboat_id,
+									ORDER_ID: val.order_id,
+									WATER_TYPE: val.water_type,
+								}));
+								ExportCSV(exportData, 'task_schedule_export');
+							}}
+						>
 							<LuImport />
 							Export
 						</button>
-						<button className="flex gap-x-2 items-center h-11 py-1 px-3 bg-[#1E3457]/90 border-[#1E3457] border font-normal text-white text-sm rounded-lg cursor-pointer transition active:scale-95">
+						<button
+							className="flex gap-x-2 items-center h-11 py-1 px-3 bg-[#1E3457]/90 border-[#1E3457] border font-normal text-white text-sm rounded-lg cursor-pointer transition active:scale-95"
+							onClick={() => setIsModalOpen(true)}
+						>
 							<HiOutlinePlus size={18} color="#fff" />
 							Add New
 						</button>
@@ -101,6 +132,8 @@ export default function TaskManagement({}: Props) {
 					</Table>
 				</div>
 			</div>
+
+			<AddScheduleModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 		</Card>
 	);
 }
