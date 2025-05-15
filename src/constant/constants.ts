@@ -1,0 +1,16 @@
+export const TASKMANAGEMENTHEADER = [
+  'Name',
+  'Max Capacity',
+  'Max Barge',
+  'Max FuelCon',
+  'Type',
+  'Min Speed',
+  'Max Speed',
+  'RPM',
+  'HP',
+  'Last',
+  'Long',
+  'Status',
+  'Kilometer',
+  'Ready DateTime',
+];

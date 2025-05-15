@@ -26,6 +26,7 @@ const Result = lazy(() => import('@/pages/home/results'));
 const Usage = lazy(() => import('@/pages/home/results/usage'));
 const Visual = lazy(() => import('@/pages/home/results/visualization'));
 // const Report = lazy(() => import('@/pages/home/results/report'));
+const TaskManagement = lazy(() => import('@/pages/TaskManagement/TaskManagement'));
 
 /**
  * @brief
@@ -51,6 +52,7 @@ export const siteMap: PageNode[] = [
 			{ name: 'index', path: '', element: <Home /> },
 			{ name: 'Components', path: 'components', element: <Component /> },
 			{ name: 'Barges', path: 'barges', element: <Barge /> },
+			// { name: 'Barges', path: 'barges', element: <TaskManagement /> }, // แก้เสร็จ เปลี่ยนกลับด้วย
 			{ name: 'Tugboats', path: 'tugboats', element: <Tugboat /> },
 			{ name: 'Stations', path: 'stations', element: <Station /> },
 			{ name: 'Customers', path: 'customers', element: <Customer /> },
@@ -61,6 +63,7 @@ export const siteMap: PageNode[] = [
 				path: 'results',
 				children: [
 					{ name: 'Tasks', path: 'tasks', element: <Result /> },
+					{ name: 'Schedule', path: 'schedule', element: <TaskManagement /> },
 					{ name: 'Usage', path: 'usage', element: <Usage /> },
 					{ name: 'Visualize', path: 'visualize', element: <Visual /> },
 					// { name: 'Report', path: 'report', element: <Report /> },

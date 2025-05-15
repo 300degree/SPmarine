@@ -38,7 +38,7 @@ export const sidebarItems: SidebarItem[] = [
 		icon: <HiOutlineChartPie />,
 		to: '/home/results',
 		children: [
-			{ label: 'Tasks/schedule', to: '#' },
+			{ label: 'Tasks/schedule', to: '/home/results/schedule' },
 			{ label: 'Usage', to: '#' },
 			{ label: 'Visualization', to: '/home/results/visualize' },
 			{ label: 'Report', to: '#' },

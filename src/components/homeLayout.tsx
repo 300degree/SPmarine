@@ -9,7 +9,7 @@ export default function HomeLayout() {
 			<Sidebar />
 			<div className="flex flex-col flex-1 overflow-hidden">
 				<Navbar />
-				<main>
+				<main className="max-h-[calc(100vh-100px)] h-full mx-3">
 					<Outlet />
 				</main>
 			</div>
