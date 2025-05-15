@@ -12,7 +12,7 @@ export default defineConfig({
 		port: Number(process.env.PORT) | 18000,
 	},
 	define: {
-		__API_ENDPOINT__: JSON.stringify(process.env.__API_ENDPOINT__ || 'http://localhost:18001'),
+		__API_ENDPOINT__: JSON.stringify(process.env.__API_ENDPOINT__ || 'http://62.72.30.12:18001'),
 		__API_VERSION__: JSON.stringify(process.env.__API_VERSION__ || 'v1'),
 		__PUBLIC_ENDPOINT__: JSON.stringify(path.join(__dirname, './public')),
 	},

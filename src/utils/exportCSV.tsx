@@ -16,3 +16,41 @@ export function ExportCSV<T>(data: T[], filename: string) {
 		return;
 	}
 }
+
+export function importFile<T>(file: File, onComplete: (data: T[]) => void, onError?: (err: unknown) => void) {
+	const fileExtension = file.name.split('.').pop()?.toLowerCase();
+
+	if (fileExtension !== 'csv') {
+		const error = new Error('Only CSV files are supported');
+		onError?.(error);
+		return;
+	}
+
+	const reader = new FileReader();
+
+	reader.onload = (e) => {
+		const result = e.target?.result;
+
+		try {
+			if (typeof result !== 'string') {
+				throw new Error('File read result is not a string');
+			}
+
+			Papa.parse<T>(result, {
+				header: true,
+				skipEmptyLines: true,
+				complete: (results) => {
+					onComplete(results.data);
+				},
+				error: (err: any) => {
+					if (onError) onError(err);
+					else console.error(err);
+				},
+			});
+		} catch (err) {
+			onError?.(err);
+		}
+	};
+
+	reader.readAsText(file);
+}

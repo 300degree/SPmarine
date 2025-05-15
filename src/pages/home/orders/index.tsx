@@ -1,14 +1,15 @@
 import { Card, CardBody, CardHeader, Typography, Input, Button } from '@material-tailwind/react';
-import { HiOutlineArrowDownTray, HiMagnifyingGlass } from 'react-icons/hi2';
+import { HiOutlineArrowDownTray, HiMagnifyingGlass, HiOutlineArrowUpTray } from 'react-icons/hi2';
 import { HiOutlinePlus } from 'react-icons/hi';
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 
 import OrderContext from '@/contexts/OrderContext';
 import { Orders } from '@/constant/types/order';
-import { ExportCSV } from '@/utils/exportCSV';
+import { ExportCSV, importFile } from '@/utils/exportCSV';
 import { formatDate } from '@/utils/date';
 import LoadingPage from '@/pages/loading';
 import ReportConfigModal from '@/components/modal';
+import ImportButton from '@/components/ImportButton'
 
 function TableHeader({ data, onSearch }: { data: Orders[]; onSearch: (text: string) => void }) {
 	const [isOpen, setIsOpen] = useState(false);
@@ -76,6 +77,7 @@ function TableHeader({ data, onSearch }: { data: Orders[]; onSearch: (text: stri
 					<Button className="flex items-center gap-2" onClick={() => ExportCSV(exportData, 'orders_overview')}>
 						<HiOutlineArrowDownTray className="w-4 h-4" /> EXPORT
 					</Button>
+					<ImportButton />
 					<div className="w-full md:w-72">
 						<Input
 							size="lg"
