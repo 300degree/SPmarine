@@ -71,7 +71,7 @@ export function StationTable({
 										/>
 									</TableCell>
 									<TableCell>
-										<Box component={RouterLink} href={`staitons/${row.id}`}>
+										<Box component={RouterLink} href={`stations/${row.id}`}>
 											<Link>
 												<Typography variant="subtitle2">{row.name}</Typography>
 											</Link>
