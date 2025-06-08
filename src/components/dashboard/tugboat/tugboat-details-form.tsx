@@ -19,6 +19,8 @@ export function TugboatDetailsForm({ id }: Props): JSX.Element {
 		if (id && getById) getById(id);
 	}, [id, getById]);
 
+	if (!selectedTugboat) return <></>;
+
 	return (
 		<form
 		// onSubmit={(event) => {
@@ -34,7 +36,7 @@ export function TugboatDetailsForm({ id }: Props): JSX.Element {
 						<Grid md={6} xs={12}>
 							<FormControl fullWidth required>
 								<InputLabel>Name</InputLabel>
-								<OutlinedInput defaultValue={selectedTugboat?.name} label="Name" name="name" />
+								<OutlinedInput value={selectedTugboat?.name} label="Name" name="name" />
 							</FormControl>
 						</Grid>
 
@@ -42,7 +44,7 @@ export function TugboatDetailsForm({ id }: Props): JSX.Element {
 						<Grid md={6} xs={12}>
 							<FormControl fullWidth required>
 								<InputLabel>Max Capacity</InputLabel>
-								<OutlinedInput defaultValue={selectedTugboat?.maxCapacity} label="Max Capacity" name="maxCapacity" />
+								<OutlinedInput value={selectedTugboat?.maxCapacity} label="Max Capacity" name="maxCapacity" />
 							</FormControl>
 						</Grid>
 
@@ -50,7 +52,7 @@ export function TugboatDetailsForm({ id }: Props): JSX.Element {
 						<Grid md={6} xs={12}>
 							<FormControl fullWidth required>
 								<InputLabel>Max Barge</InputLabel>
-								<OutlinedInput defaultValue={selectedTugboat?.maxBarge} label="Max Barge" name="maxBarge" />
+								<OutlinedInput value={selectedTugboat?.maxBarge} label="Max Barge" name="maxBarge" />
 							</FormControl>
 						</Grid>
 
@@ -58,7 +60,7 @@ export function TugboatDetailsForm({ id }: Props): JSX.Element {
 						<Grid md={6} xs={12}>
 							<FormControl fullWidth required>
 								<InputLabel>Max FuelCon</InputLabel>
-								<OutlinedInput defaultValue={selectedTugboat?.maxFuelCon} label="Max FuelCon" name="maxFuelCon" />
+								<OutlinedInput value={selectedTugboat?.maxFuelCon} label="Max FuelCon" name="maxFuelCon" />
 							</FormControl>
 						</Grid>
 
@@ -66,9 +68,9 @@ export function TugboatDetailsForm({ id }: Props): JSX.Element {
 						<Grid md={6} xs={12}>
 							<FormControl fullWidth>
 								<InputLabel>Type</InputLabel>
-								<Select defaultValue="New York" label="Type" name="type" variant="outlined">
-									<MenuItem value="Sea">SEA</MenuItem>
-									<MenuItem value="River">RIVER</MenuItem>
+								<Select value={selectedTugboat?.type} label="Type" name="type" variant="outlined">
+									<MenuItem value="SEA">SEA</MenuItem>
+									<MenuItem value="RIVER">RIVER</MenuItem>
 								</Select>
 							</FormControl>
 						</Grid>
@@ -77,7 +79,7 @@ export function TugboatDetailsForm({ id }: Props): JSX.Element {
 						<Grid md={6} xs={12}>
 							<FormControl fullWidth>
 								<InputLabel>Water Status</InputLabel>
-								<Select label="Water Status" name="waterStatus" variant="outlined">
+								<Select value={selectedTugboat?.waterStatus} label="Water Status" name="waterStatus" variant="outlined">
 									<MenuItem value="SEA">SEA</MenuItem>
 									<MenuItem value="RIVER">RIVER</MenuItem>
 								</Select>
@@ -89,13 +91,13 @@ export function TugboatDetailsForm({ id }: Props): JSX.Element {
 							<Grid md={6} xs={12}>
 								<FormControl fullWidth margin="normal" required>
 									<InputLabel>Min Speed</InputLabel>
-									<OutlinedInput label="Min Speed" defaultValue={selectedTugboat?.minSpeed} name="minSpeed" />
+									<OutlinedInput label="Min Speed" value={selectedTugboat?.minSpeed} name="minSpeed" />
 								</FormControl>
 							</Grid>
 							<Grid md={6} xs={12}>
 								<FormControl fullWidth margin="normal" required>
 									<InputLabel>Max Speed</InputLabel>
-									<OutlinedInput label="Max Speed" defaultValue={selectedTugboat?.maxSpeed} name="maxSpeed" />
+									<OutlinedInput label="Max Speed" value={selectedTugboat?.maxSpeed} name="maxSpeed" />
 								</FormControl>
 							</Grid>
 						</Grid>
@@ -104,7 +106,7 @@ export function TugboatDetailsForm({ id }: Props): JSX.Element {
 						<Grid md={6} xs={12}>
 							<FormControl fullWidth required>
 								<InputLabel>Engine Rpm</InputLabel>
-								<OutlinedInput label="Engine Rpm" defaultValue={selectedTugboat?.engineRpm} name="engineRpm" />
+								<OutlinedInput label="Engine Rpm" value={selectedTugboat?.engineRpm} name="engineRpm" />
 							</FormControl>
 						</Grid>
 
@@ -112,7 +114,7 @@ export function TugboatDetailsForm({ id }: Props): JSX.Element {
 						<Grid md={6} xs={12}>
 							<FormControl fullWidth required>
 								<InputLabel>Horse Power</InputLabel>
-								<OutlinedInput label="Horse Power" defaultValue={selectedTugboat?.horsePower} name="horsePower" />
+								<OutlinedInput label="Horse Power" value={selectedTugboat?.horsePower} name="horsePower" />
 							</FormControl>
 						</Grid>
 
@@ -121,13 +123,13 @@ export function TugboatDetailsForm({ id }: Props): JSX.Element {
 							<Grid md={6} xs={12}>
 								<FormControl fullWidth required>
 									<InputLabel>Longitude</InputLabel>
-									<OutlinedInput label="Longitude" defaultValue={selectedTugboat?.longitude} name="longitude" />
+									<OutlinedInput label="Longitude" value={selectedTugboat?.longitude} name="longitude" />
 								</FormControl>
 							</Grid>
 							<Grid md={6} xs={12}>
 								<FormControl fullWidth required>
 									<InputLabel>Latitude</InputLabel>
-									<OutlinedInput label="Latitude" defaultValue={selectedTugboat?.latitude} name="latitude" />
+									<OutlinedInput label="Latitude" value={selectedTugboat?.latitude} name="latitude" />
 								</FormControl>
 							</Grid>
 						</Grid>
@@ -136,7 +138,7 @@ export function TugboatDetailsForm({ id }: Props): JSX.Element {
 						<Grid md={6} xs={12}>
 							<FormControl required>
 								<InputLabel>Distance Km</InputLabel>
-								<OutlinedInput label="Distance Km" defaultValue={selectedTugboat?.distanceKm} name="distanceKm" />
+								<OutlinedInput label="Distance Km" value={selectedTugboat?.distanceKm} name="distanceKm" />
 							</FormControl>
 						</Grid>
 
@@ -146,7 +148,7 @@ export function TugboatDetailsForm({ id }: Props): JSX.Element {
 								<InputLabel>Ready DateTime</InputLabel>
 								<OutlinedInput
 									label="Ready DateTime"
-									defaultValue={dayjs(selectedTugboat?.readyDatetime).format("MM/DD/YYYY HH:mm:ss")}
+									value={dayjs(selectedTugboat?.readyDatetime).format("MM/DD/YYYY HH:mm:ss")}
 									name="readyDateTime"
 								/>
 							</FormControl>

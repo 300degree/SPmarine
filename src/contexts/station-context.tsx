@@ -30,13 +30,13 @@ export function StationProvider({ children }: { children: ReactNode }) {
 	});
 
 	const getById = async (id: string) => {
-		const cached = queryClient.getQueryData<Station[]>(["tugboats"])?.find((t) => t.id === id);
+		const cached = queryClient.getQueryData<Station[]>(["stations"])?.find((t) => t.id === id);
 		if (cached) {
 			setSelected(cached);
 			return;
 		}
 
-		const res = await axios.get(`${process.env.API_ENDPOINT}/${process.env.API_VERSION}/tugboats/${id}`);
+		const res = await axios.get(`${process.env.API_ENDPOINT}/${process.env.API_VERSION}/stations/${id}`);
 		setSelected(res.data);
 	};
 
@@ -48,7 +48,7 @@ export function StationProvider({ children }: { children: ReactNode }) {
 				station: data,
 				isLoading: isLoading,
 				getById: getById,
-				selectedTugboat: selected,
+				selected: selected,
 			}}
 		>
 			{children}

@@ -21,7 +21,7 @@ export function BargeDetailsForm({ id }: Props): JSX.Element {
 
 	const handleChange = () => {};
 
-	console.log(selectedBarge);
+	if (!selectedBarge) return <></>;
 
 	return (
 		<form
@@ -30,7 +30,7 @@ export function BargeDetailsForm({ id }: Props): JSX.Element {
 		// }}
 		>
 			<Card>
-				<CardHeader subheader="The information can be edited" title="edit tugboat" />
+				<CardHeader subheader="The information can be edited" title="edit barge" />
 				<Divider />
 				<CardContent>
 					<Grid container spacing={3}>

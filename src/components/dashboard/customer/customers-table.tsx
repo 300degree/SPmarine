@@ -1,42 +1,19 @@
 "use client";
 
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
-import Divider from "@mui/material/Divider";
-import Stack from "@mui/material/Stack";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
-import dayjs from "dayjs";
+import { JSX, useMemo } from "react";
+import { Avatar, Box, Card, Checkbox, Divider, Stack, Typography } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, TableRow, TablePagination } from "@mui/material";
 
 import { useSelection } from "@/hooks/use-selection";
-
-function noop(): void {
-	// do nothing
-}
-
-export interface Customer {
-	id: string;
-	avatar: string;
-	name: string;
-	email: string;
-	address: { city: string; state: string; country: string; street: string };
-	phone: string;
-	createdAt: Date;
-}
+import { Customer } from "@/types/customer";
 
 interface CustomersTableProps {
 	count?: number;
 	page?: number;
 	rows?: Customer[];
 	rowsPerPage?: number;
+	onPageChange: (event: unknown, newPage: number) => void;
+	onRowsPerPageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function CustomeAvatar({ id }: { id: string }) {
@@ -52,8 +29,10 @@ export function CustomersTable({
 	rows = [],
 	page = 0,
 	rowsPerPage = 0,
-}: CustomersTableProps): React.JSX.Element {
-	const rowIds = React.useMemo(() => {
+	onPageChange,
+	onRowsPerPageChange,
+}: CustomersTableProps): JSX.Element {
+	const rowIds = useMemo(() => {
 		return rows.map((customer) => customer.id);
 	}, [rows]);
 
@@ -73,19 +52,13 @@ export function CustomersTable({
 									checked={selectedAll}
 									indeterminate={selectedSome}
 									onChange={(event) => {
-										if (event.target.checked) {
-											selectAll();
-										} else {
-											deselectAll();
-										}
+										event.target.checked ? selectAll() : deselectAll();
 									}}
 								/>
 							</TableCell>
 							<TableCell>Name</TableCell>
 							<TableCell>Email</TableCell>
-							<TableCell>Location</TableCell>
-							<TableCell>Phone</TableCell>
-							<TableCell>Signed Up</TableCell>
+							<TableCell>Address</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -98,27 +71,21 @@ export function CustomersTable({
 										<Checkbox
 											checked={isSelected}
 											onChange={(event) => {
-												if (event.target.checked) {
-													selectOne(row.id);
-												} else {
-													deselectOne(row.id);
-												}
+												event.target.checked ? selectOne(row.id) : deselectOne(row.id);
 											}}
 										/>
 									</TableCell>
 									<TableCell>
 										<Stack sx={{ alignItems: "center" }} direction="row" spacing={2}>
-											{/* <Avatar src={row.avatar} /> */}
 											<CustomeAvatar id={row.id} />
 											<Typography variant="subtitle2">{row.name}</Typography>
 										</Stack>
 									</TableCell>
 									<TableCell>{row.email}</TableCell>
-									<TableCell>
+									<TableCell>{row.address}</TableCell>
+									{/* <TableCell>
 										{row.address.city}, {row.address.state}, {row.address.country}
-									</TableCell>
-									<TableCell>{row.phone}</TableCell>
-									<TableCell>{dayjs(row.createdAt).format("MMM D, YYYY")}</TableCell>
+									</TableCell> */}
 								</TableRow>
 							);
 						})}
@@ -129,8 +96,8 @@ export function CustomersTable({
 			<TablePagination
 				component="div"
 				count={count}
-				onPageChange={noop}
-				onRowsPerPageChange={noop}
+				onPageChange={onPageChange}
+				onRowsPerPageChange={onRowsPerPageChange}
 				page={page}
 				rowsPerPage={rowsPerPage}
 				rowsPerPageOptions={[5, 10, 25]}

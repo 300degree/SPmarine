@@ -5,7 +5,6 @@ import { Card, CardHeader, CardContent, CardActions, MenuItem } from "@mui/mater
 import { JSX, useContext, useEffect } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 
-import { TugboatContext, TugboatContextType } from "@/contexts/tugboat-context";
 import { StationContext, StationContextType } from "@/contexts/station-context";
 
 interface Props {
@@ -13,12 +12,13 @@ interface Props {
 }
 
 export function StationDetailsForm({ id }: Props): JSX.Element {
-	// const { selectedTugboat, getById } = useContext<TugboatContextType>(TugboatContext);
 	const { selected, getById } = useContext<StationContextType>(StationContext);
 
 	useEffect(() => {
 		if (id && getById) getById(id);
 	}, [id, getById]);
+
+	if (!selected) return <></>;
 
 	return (
 		<form
