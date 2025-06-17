@@ -1,8 +1,7 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 import { Cost } from "@/types/cost";
 import { http } from "@/http";
@@ -19,8 +18,6 @@ interface CostContextType {
 const CostContext = createContext<CostContextType | undefined>(undefined);
 
 export function CostProvider({ children }: { children: ReactNode }) {
-	const queryClient = useQueryClient();
-
 	const {
 		data: costList = [],
 		isLoading,
@@ -29,7 +26,6 @@ export function CostProvider({ children }: { children: ReactNode }) {
 		queryKey: ["costs"],
 		queryFn: async () => {
 			return (await http.get<Cost[]>("costs")).data;
-			// return (await axios.get(`${process.env.API_ENDPOINT}/${process.env.API_VERSION}/costs`)).data;
 		},
 	});
 

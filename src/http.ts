@@ -1,8 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
-export const API_ENDPOINT: string = process.env.API_ENDPOINT || "http://localhost:5000";
-export const API_VERSION: string = process.env.API_VERSION || "v1";
-
+export const API_ENDPOINT: string = "http://62.72.30.12:18001";
+export const API_VERSION: string = "v1";
 export const API_BASE: string = `${API_ENDPOINT}/${API_VERSION}`;
 
 interface HTTP {
@@ -13,8 +12,8 @@ interface HTTP {
 }
 
 export const http: HTTP = {
-	get: <T>(entry: string, params?: Record<string, any>) => axios.get<T>(`${API_BASE}/${entry}`, { params }),
-	post: <T>(entry: string, data?: any) => axios.post<T>(`${API_BASE}/${entry}`, data),
-	put: <T>(entry: string, data?: any) => axios.put<T>(`${API_BASE}/${entry}`, data),
-	delete: <T>(entry: string) => axios.delete<T>(`${API_BASE}/${entry}`),
+	get: async <T>(entry: string, params?: Record<string, any>) => await axios.get<T>(`${API_BASE}/${entry}`, { params }),
+	post: async <T>(entry: string, data?: any) => await axios.post<T>(`${API_BASE}/${entry}`, data),
+	put: async <T>(entry: string, data?: any) => await axios.put<T>(`${API_BASE}/${entry}`, data),
+	delete: async <T>(entry: string) => await axios.delete<T>(`${API_BASE}/${entry}`),
 };

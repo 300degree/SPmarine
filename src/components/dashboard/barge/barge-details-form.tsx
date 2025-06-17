@@ -1,7 +1,7 @@
 "use client";
 
-import { Button, Divider, FormControl, InputLabel, OutlinedInput, Select } from "@mui/material";
-import { Card, CardHeader, CardContent, CardActions, MenuItem } from "@mui/material";
+import { Card, CardHeader, CardContent } from "@mui/material";
+import { Divider, InputAdornment, TextField } from "@mui/material";
 import { JSX, useContext, useEffect } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import dayjs from "dayjs";
@@ -19,164 +19,157 @@ export function BargeDetailsForm({ id }: Props): JSX.Element {
 		if (id && getById) getById(id);
 	}, [id, getById]);
 
-	const handleChange = () => {};
-
-	console.log(selectedBarge);
-
 	return (
-		<form
-		// onSubmit={(event) => {
-		//   event.preventDefault();
-		// }}
-		>
+		<form>
 			<Card>
-				<CardHeader subheader="The information can be edited" title="edit tugboat" />
+				<CardHeader subheader="ข้อมูลรายละเอียดเพิ่มเติม" title="รายละเอียดเรือลากจูง" />
 				<Divider />
+
 				<CardContent>
 					<Grid container spacing={3}>
 						{/* Id */}
 						<Grid md={6} xs={12}>
-							<FormControl fullWidth required>
-								<InputLabel>Id</InputLabel>
-								<OutlinedInput label="Id" value={selectedBarge?.id} onChange={handleChange} name="id" />
-							</FormControl>
+							<TextField
+								label="Id"
+								type="text"
+								value={selectedBarge?.id}
+								name="id"
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+							/>
 						</Grid>
 
 						{/* Name */}
 						<Grid md={6} xs={12}>
-							<FormControl fullWidth required>
-								<InputLabel>Name</InputLabel>
-								<OutlinedInput label="Name" value={selectedBarge?.name} onChange={handleChange} name="name" />
-							</FormControl>
+							<TextField
+								label="Name"
+								type="text"
+								value={selectedBarge?.name}
+								name="name"
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+							/>
 						</Grid>
 
 						{/* Weight */}
 						<Grid md={6} xs={12}>
-							<FormControl fullWidth required>
-								<InputLabel>Weight</InputLabel>
-								<OutlinedInput
-									label="Max Capacity"
-									value={selectedBarge?.weight}
-									onChange={handleChange}
-									name="weight"
-								/>
-							</FormControl>
+							<TextField
+								label="Weight"
+								type="text"
+								value={selectedBarge?.weight}
+								name="weight"
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+								InputProps={{
+									endAdornment: <InputAdornment position="end">กิโลกรัม</InputAdornment>,
+								}}
+							/>
 						</Grid>
 
 						{/* Capacity */}
 						<Grid md={6} xs={12}>
-							<FormControl fullWidth required>
-								<InputLabel>Capacity</InputLabel>
-								<OutlinedInput
-									label="Capacity"
-									value={selectedBarge?.capacity}
-									onChange={handleChange}
-									name="capacity"
-								/>
-							</FormControl>
+							<TextField
+								label="Capacity"
+								type="text"
+								value={selectedBarge?.capacity}
+								name="capacity"
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+							/>
 						</Grid>
 
 						{/* Station Id */}
 						<Grid md={6} xs={12}>
-							<FormControl fullWidth>
-								<InputLabel>Station Id</InputLabel>
-								<OutlinedInput
-									label="Station Id"
-									value={selectedBarge?.stationId}
-									onChange={handleChange}
-									name="stationId"
-								/>
-							</FormControl>
+							<TextField
+								label="Station Id"
+								type="text"
+								value={selectedBarge?.stationId}
+								name="stationId"
+								InputLabelProps={{
+									shrink: true,
+								}}
+								fullWidth
+							/>
 						</Grid>
 
 						{/* Water Status */}
 						<Grid md={6} xs={12}>
-							<FormControl fullWidth>
-								<InputLabel>Water Status</InputLabel>
-								<Select
-									value={selectedBarge?.waterStatus}
-									onChange={handleChange}
-									label="Water Status"
-									name="waterStatus"
-									variant="outlined"
-								>
-									<MenuItem value="SEA">SEA</MenuItem>
-									<MenuItem value="RIVER">RIVER</MenuItem>
-								</Select>
-							</FormControl>
+							<TextField
+								label="WaterStatus"
+								type="text"
+								value={selectedBarge?.waterStatus}
+								name="waterStatus"
+								InputLabelProps={{
+									shrink: true,
+								}}
+								fullWidth
+							/>
 						</Grid>
 
 						{/* Latitude & Longitude */}
 						<Grid container>
 							<Grid md={6} xs={12}>
-								<FormControl fullWidth required>
-									<InputLabel>Longitude</InputLabel>
-									<OutlinedInput
-										label="Longitude"
-										value={selectedBarge?.longitude}
-										onChange={handleChange}
-										name="longitude"
-									/>
-								</FormControl>
+								<TextField
+									label="Longitude"
+									type="text"
+									value={selectedBarge?.longitude}
+									name="longitude"
+									InputLabelProps={{ shrink: true }}
+									fullWidth
+								/>
 							</Grid>
 							<Grid md={6} xs={12}>
-								<FormControl fullWidth required>
-									<InputLabel>Latitude</InputLabel>
-									<OutlinedInput
-										label="Latitude"
-										value={selectedBarge?.latitude}
-										onChange={handleChange}
-										name="latitude"
-									/>
-								</FormControl>
+								<TextField
+									label="Latitude"
+									type="text"
+									value={selectedBarge?.latitude}
+									name="latitude"
+									InputLabelProps={{ shrink: true }}
+									fullWidth
+								/>
 							</Grid>
 						</Grid>
 
 						{/* DistanceKm */}
 						<Grid md={6} xs={12}>
-							<FormControl required>
-								<InputLabel>Distance Km</InputLabel>
-								<OutlinedInput
-									label="Distance Km"
-									value={selectedBarge?.distanceKm}
-									onChange={handleChange}
-									name="distanceKm"
-								/>
-							</FormControl>
+							<TextField
+								label="Distance Km"
+								type="text"
+								value={selectedBarge?.distanceKm}
+								name="distanceKm"
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+								InputProps={{
+									endAdornment: <InputAdornment position="end">กิโลเมตร</InputAdornment>,
+								}}
+							/>
 						</Grid>
 
 						{/* SetupTime */}
-						<Grid md={6} xs={12}>
-							<FormControl fullWidth required>
-								<InputLabel>SetupTime</InputLabel>
-								<OutlinedInput
-									label="SetupTime"
-									value={selectedBarge?.setupTime}
-									onChange={handleChange}
-									name="SetupTime"
-								/>
-							</FormControl>
+						<Grid>
+							<TextField
+								label="Setup Time"
+								type="text"
+								value={selectedBarge?.setupTime}
+								name="setupTime"
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+							/>
 						</Grid>
 
 						{/* ReadyDateTime	 */}
-						<Grid md={6} xs={12}>
-							<FormControl required>
-								<InputLabel>Ready DateTime</InputLabel>
-								<OutlinedInput
-									label="Ready DateTime"
-									type="datetime-local"
-									value={selectedBarge?.readyDatetime || ""}
-									onChange={handleChange}
-									name="readyDateTime"
-								/>
-							</FormControl>
+						<Grid>
+							<TextField
+								label="Ready DateTime"
+								type="datetime-local"
+								value={dayjs(selectedBarge?.readyDatetime).format("YYYY-MM-DDTHH:mm")}
+								name="readyDatetime"
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+							/>
 						</Grid>
 					</Grid>
 				</CardContent>
-				<Divider />
-				<CardActions sx={{ justifyContent: "flex-end" }}>
-					<Button variant="contained">Save details</Button>
-				</CardActions>
 			</Card>
 		</form>
 	);

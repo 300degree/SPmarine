@@ -2,9 +2,9 @@
 
 import { createContext, ReactNode, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 
 import { Barge } from "@/types/barge";
+import { http } from "@/http";
 
 export interface BargeContextType {
 	barge?: Barge[];
@@ -25,8 +25,7 @@ export function BargeProvider({ children }: { children: ReactNode }) {
 	const { data, isLoading } = useQuery<Barge[]>({
 		queryKey: ["barges"],
 		queryFn: async () => {
-			// return (await axios.get(`${process.env.API_ENDPOINT}/${process.env.API_VERSION}/barges`)).data;
-			return (await axios.get(`http://62.72.30.12:18001/v1/barges`)).data;
+			return (await http.get<Barge[]>("barges")).data;
 		},
 	});
 
@@ -37,7 +36,7 @@ export function BargeProvider({ children }: { children: ReactNode }) {
 			return;
 		}
 
-		const res = await axios.get(`${process.env.API_ENDPOINT}/${process.env.API_VERSION}/barges/${id}`);
+		const res = await http.get<Barge>(`barges/${id}`);
 		setSelectedTugboat(res.data);
 	};
 

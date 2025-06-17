@@ -30,10 +30,7 @@ export function BargeTable({
 		return rows.map((customer) => customer.id);
 	}, [rows]);
 
-	const { selectAll, deselectAll, selectOne, deselectOne, selected } = useSelection(rowIds);
-
-	const selectedSome = (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < rows.length;
-	const selectedAll = rows.length > 0 && selected?.size === rows.length;
+	const { selected } = useSelection(rowIds);
 
 	return (
 		<Card>
@@ -41,15 +38,6 @@ export function BargeTable({
 				<Table sx={{ minWidth: "800px" }}>
 					<TableHead>
 						<TableRow>
-							<TableCell padding="checkbox">
-								<Checkbox
-									checked={selectedAll}
-									indeterminate={selectedSome}
-									onChange={(event) => {
-										event.target.checked ? selectAll() : deselectAll();
-									}}
-								/>
-							</TableCell>
 							<TableCell>Name</TableCell>
 							<TableCell>Water Status</TableCell>
 							<TableCell>Distance Km</TableCell>
@@ -62,14 +50,6 @@ export function BargeTable({
 
 							return (
 								<TableRow hover key={row.id} selected={isSelected}>
-									<TableCell padding="checkbox">
-										<Checkbox
-											checked={isSelected}
-											onChange={(event) => {
-												event.target.checked ? selectOne(row.id) : deselectOne(row.id);
-											}}
-										/>
-									</TableCell>
 									<TableCell>
 										<Box component={RouterLink} href={`barges/${row.id}`}>
 											<Link>
