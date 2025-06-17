@@ -1,5 +1,7 @@
-node_modules
-npm-debug.log
-.next/cache
 .git
 .gitignore
+.next
+Dockerfile
+node_modules
+npm-debug.log
+prettier.config.mjs
