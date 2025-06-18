@@ -1,180 +1,184 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Grid from "@mui/material/Unstable_Grid2";
 import dayjs from "dayjs";
-import axios from "axios";
-import { Button, Divider, FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
+import { Button, Divider, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { Card, CardActions, CardContent, CardHeader } from "@mui/material";
-import { FormEvent, useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Barge } from "@/types/barge";
+import { http } from "@/http";
+import { paths } from "@/paths";
 
 export default function Page() {
-	const [formData, setFormData] = useState<Barge>({
-		id: "",
-		name: "",
-		weight: 0,
-		capacity: 0,
-		latitude: 0,
-		longitude: 0,
-		waterStatus: "SEA",
-		stationId: "",
-		distanceKm: 0,
-		setupTime: 0,
-		readyDatetime: dayjs().format("YYYY-MM-DDTHH:mm"),
+	const { register, handleSubmit } = useForm<Barge>();
+	const router = useRouter();
+
+	const onSubmit = handleSubmit(async (val) => {
+		try {
+			await http.post("barges", val);
+
+			router.replace(paths.dashboard.barges);
+		} catch (e) {
+			console.error("Error creating barge:", e);
+		}
 	});
 
-	const handleChange = (e: any) => {
-		const { name, value } = e.target;
-		setFormData((prev) => ({
-			...prev,
-			[name]:
-				name === "maxCapacity" ||
-				name === "maxBarge" ||
-				name === "maxFuelCon" ||
-				name === "minSpeed" ||
-				name === "maxSpeed" ||
-				name === "engineRpm" ||
-				name === "horsePower" ||
-				name === "latitude" ||
-				name === "longitude" ||
-				name === "distanceKm"
-					? Number(value)
-					: value,
-		}));
-	};
-
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
-		try {
-			const res = await axios.post(`${process.env.API_ENDPOINT}/${process.env.API_VERSION}/barges`, formData);
-			if (res.data.status === 201) alert("failed");
-
-			alert("success");
-			window.history.back();
-		} catch (e) {
-			console.error("failed: ", e);
-		}
-	};
-
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={onSubmit}>
 			<Card>
-				<CardHeader subheader="The information can be added" title="add barge" />
+				<CardHeader title="เพิ่มข้อมูลเรือบรรทุก" subheader="คุณสามารถเพิ่มข้อมูลได้ที่นี่" />
 				<Divider />
 				<CardContent>
 					<Grid container spacing={3}>
 						{/* Id */}
 						<Grid md={6} xs={12}>
-							<FormControl fullWidth required>
-								<InputLabel>Id</InputLabel>
-								<OutlinedInput label="Id" value={formData.id} onChange={handleChange} name="id" />
-							</FormControl>
+							<TextField
+								label="ID"
+								{...register("id", { required: "Id is required" })}
+								type="text"
+								placeholder="ID: SPI_001"
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+							/>
 						</Grid>
 
 						{/* Name */}
 						<Grid md={6} xs={12}>
-							<FormControl fullWidth required>
-								<InputLabel>Name</InputLabel>
-								<OutlinedInput label="Name" value={formData.name} onChange={handleChange} name="name" />
-							</FormControl>
+							<TextField
+								label="Name"
+								{...register("name", { required: "name is requried" })}
+								type="text"
+								placeholder="Name: SPI_001"
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+							/>
 						</Grid>
 
 						{/* Weight */}
 						<Grid md={6} xs={12}>
-							<FormControl fullWidth required>
-								<InputLabel>Weight</InputLabel>
-								<OutlinedInput label="Max Capacity" value={formData.weight} onChange={handleChange} name="weight" />
-							</FormControl>
+							<TextField
+								label="Weight"
+								type="number"
+								InputLabelProps={{ shrink: true }}
+								InputProps={{
+									endAdornment: <InputAdornment position="end">กิโลกรัม</InputAdornment>,
+								}}
+								{...register("weight", { required: "Weight is required" })}
+								fullWidth
+							/>
 						</Grid>
 
 						{/* Capacity */}
 						<Grid md={6} xs={12}>
-							<FormControl fullWidth required>
-								<InputLabel>Capacity</InputLabel>
-								<OutlinedInput label="Capacity" value={formData.capacity} onChange={handleChange} name="capacity" />
-							</FormControl>
+							<TextField
+								label="Capacity"
+								type="number"
+								{...register("capacity", { required: "capacity is required" })}
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+							/>
 						</Grid>
 
 						{/* Station Id */}
 						<Grid md={6} xs={12}>
-							<FormControl fullWidth>
-								<InputLabel>Station Id</InputLabel>
-								<OutlinedInput label="Station Id" value={formData.stationId} onChange={handleChange} name="stationId" />
-							</FormControl>
-						</Grid>
-
-						{/* Water Status */}
-						<Grid md={6} xs={12}>
-							<FormControl fullWidth>
-								<InputLabel>Water Status</InputLabel>
-								<Select
-									value={formData.waterStatus}
-									onChange={handleChange}
-									label="Water Status"
-									name="waterStatus"
-									variant="outlined"
-								>
-									<MenuItem value="SEA">SEA</MenuItem>
-									<MenuItem value="RIVER">RIVER</MenuItem>
-								</Select>
-							</FormControl>
+							<TextField
+								label="Station Id"
+								type="text"
+								{...register("stationId", { required: "station_id is required" })}
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+							/>
 						</Grid>
 
 						{/* Latitude & Longitude */}
 						<Grid container>
 							<Grid md={6} xs={12}>
-								<FormControl fullWidth required>
-									<InputLabel>Longitude</InputLabel>
-									<OutlinedInput
-										label="Longitude"
-										value={formData.longitude}
-										onChange={handleChange}
-										name="longitude"
-									/>
-								</FormControl>
+								<TextField
+									label="Longitude"
+									type="text"
+									{...register("longitude", { required: "longitude is requried" })}
+									InputLabelProps={{ shrink: true }}
+									InputProps={{
+										endAdornment: <InputAdornment position="end">องศา</InputAdornment>,
+									}}
+									fullWidth
+								/>
 							</Grid>
 							<Grid md={6} xs={12}>
-								<FormControl fullWidth required>
-									<InputLabel>Latitude</InputLabel>
-									<OutlinedInput label="Latitude" value={formData.latitude} onChange={handleChange} name="latitude" />
-								</FormControl>
+								<TextField
+									label="Latitude"
+									type="text"
+									{...register("latitude", { required: "latitude is requried" })}
+									InputLabelProps={{ shrink: true }}
+									InputProps={{
+										endAdornment: <InputAdornment position="end">องศา</InputAdornment>,
+									}}
+									fullWidth
+								/>
 							</Grid>
 						</Grid>
 
 						{/* DistanceKm */}
 						<Grid md={6} xs={12}>
-							<FormControl required>
-								<InputLabel>Distance Km</InputLabel>
-								<OutlinedInput
-									label="Distance Km"
-									value={formData.distanceKm}
-									onChange={handleChange}
-									name="distanceKm"
-								/>
-							</FormControl>
+							<TextField
+								label="Distance Km"
+								{...register("distanceKm", { required: "distanceKm is requried" })}
+								placeholder="e.g."
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+								InputProps={{
+									endAdornment: <InputAdornment position="end">กิโลเมตร</InputAdornment>,
+								}}
+							/>
 						</Grid>
 
 						{/* SetupTime */}
-						<Grid md={6} xs={12}>
-							<FormControl fullWidth required>
-								<InputLabel>SetupTime</InputLabel>
-								<OutlinedInput label="SetupTime" value={formData.setupTime} onChange={handleChange} name="SetupTime" />
-							</FormControl>
+						<Grid>
+							<TextField
+								label="Setup Time"
+								type="number"
+								{...register("setupTime", { required: "setupTime is required" })}
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+								InputProps={{
+									endAdornment: <InputAdornment position="end">นาที</InputAdornment>,
+								}}
+							/>
 						</Grid>
 
 						{/* ReadyDateTime	 */}
-						<Grid md={6} xs={12}>
-							<FormControl required>
-								<InputLabel>Ready DateTime</InputLabel>
-								<OutlinedInput
-									label="Ready DateTime"
-									type="datetime-local"
-									value={formData.readyDatetime || ""}
-									onChange={handleChange}
-									name="readyDateTime"
-								/>
+						<Grid>
+							<TextField
+								label="Ready DateTime"
+								type="datetime-local"
+								{...register("readyDatetime", { required: "readyDateTime is requried" })}
+								InputLabelProps={{ shrink: true }}
+								fullWidth
+							/>
+						</Grid>
+
+						{/* Water Status */}
+						<Grid lg={2} md={6} xs={12}>
+							<FormControl fullWidth>
+								<InputLabel id="water-status-label">สถานะน้ำ</InputLabel>
+								<Select
+									labelId="water-status-label"
+									id="water-status"
+									label="Water Status"
+									defaultValue=""
+									{...register("waterStatus", { required: "Water status is required" })}
+								>
+									<MenuItem value="" disabled>
+										-- กรุณาเลือกสถานะน้ำ --
+									</MenuItem>
+									{["SEA", "RIVER"].map((status: string, idx: number) => (
+										<MenuItem key={idx} value={status}>
+											{status}
+										</MenuItem>
+									))}
+								</Select>
 							</FormControl>
 						</Grid>
 					</Grid>

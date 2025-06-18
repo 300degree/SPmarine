@@ -1,6 +1,6 @@
 export type Customer = {
 	id: string;
 	name: string;
-  email: string;
-  address: string;
+	email: string;
+	address: string;
 };

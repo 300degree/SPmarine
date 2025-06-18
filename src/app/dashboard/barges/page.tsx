@@ -7,17 +7,24 @@ import { Download as DownloadIcon } from "@phosphor-icons/react/dist/ssr/Downloa
 import { Plus as PlusIcon } from "@phosphor-icons/react/dist/ssr/Plus";
 import { Upload as UploadIcon } from "@phosphor-icons/react/dist/ssr/Upload";
 
-import { BargeTable } from "@/components/dashboard/barge/barge-table";
-import { useBarge } from "@/hooks/use-barge";
 import { Barge } from "@/types/barge";
+import { BargeFilters } from "@/components/dashboard/barge/barge-filters";
+import { BargeTable } from "@/components/dashboard/barge/barge-table";
 import { paths } from "@/paths";
+import { useBarge } from "@/hooks/use-barge";
 
 export default function Page(): JSX.Element {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const [filter, setFilter] = useState<string>("");
 
 	const barge: Barge[] = useBarge();
-	const paginatedBarges = applyPagination(barge, page, rowsPerPage);
+
+	const paginatedBarges = applyPagination(
+		barge.filter((b) => b.name.toLowerCase().includes(filter.toLowerCase())),
+		page,
+		rowsPerPage,
+	);
 
 	const handleImport = () => {};
 
@@ -65,7 +72,7 @@ export default function Page(): JSX.Element {
 					</Button>
 				</div>
 			</Stack>
-			{/* <CustomersFilters /> */}
+			<BargeFilters val={filter} cb={(e: ChangeEvent<HTMLInputElement>) => setFilter(e.target.value)} />
 			<BargeTable
 				count={barge.length}
 				page={page}
