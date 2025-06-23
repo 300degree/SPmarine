@@ -1,0 +1,8 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/300degree/SPmarine-frontend.git
+	branch = master
+[submodule "backend"]
+	path = backend
+	url = https://github.com/300degree/SPmarine-backend.git
+	branch = master
